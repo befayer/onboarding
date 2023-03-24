@@ -1,0 +1,37 @@
+package com.company.onboarding.security;
+
+import com.company.onboarding.entity.Department;
+import com.company.onboarding.entity.Step;
+import com.company.onboarding.entity.User;
+import com.company.onboarding.entity.UserStep;
+import io.jmix.security.model.EntityAttributePolicyAction;
+import io.jmix.security.model.EntityPolicyAction;
+import io.jmix.security.role.annotation.EntityAttributePolicy;
+import io.jmix.security.role.annotation.EntityPolicy;
+import io.jmix.security.role.annotation.ResourceRole;
+import io.jmix.securityui.role.annotation.ScreenPolicy;
+
+import javax.annotation.Nonnull;
+
+@Nonnull
+@ResourceRole(name = "HR Manager", code = "h-r--manager", scope = "UI")
+public interface HRManagerRole {
+    @ScreenPolicy(screenIds = "User.edit")
+    void screens();
+
+    @EntityAttributePolicy(entityClass = Department.class, attributes = "*", action = EntityAttributePolicyAction.VIEW)
+    @EntityPolicy(entityClass = Department.class, actions = EntityPolicyAction.READ)
+    void department();
+
+    @EntityAttributePolicy(entityClass = Step.class, attributes = "*", action = EntityAttributePolicyAction.VIEW)
+    @EntityPolicy(entityClass = Step.class, actions = EntityPolicyAction.READ)
+    void step();
+
+    @EntityAttributePolicy(entityClass = User.class, attributes = "*", action = EntityAttributePolicyAction.MODIFY)
+    @EntityPolicy(entityClass = User.class, actions = EntityPolicyAction.ALL)
+    void user();
+
+    @EntityAttributePolicy(entityClass = UserStep.class, attributes = "*", action = EntityAttributePolicyAction.MODIFY)
+    @EntityPolicy(entityClass = UserStep.class, actions = EntityPolicyAction.ALL)
+    void userStep();
+}
